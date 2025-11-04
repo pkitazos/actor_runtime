@@ -1,4 +1,4 @@
-# tiny Actor Runtime
+# Actor Runtime
 
 Experimenting building a simple actor runtime in Rust.
 
@@ -6,8 +6,8 @@ Experimenting building a simple actor runtime in Rust.
 ## What do we want out of our runtime?
 
 Let's say _you_ are a thread. In this world that means you are also an actor! As an actor you can:
-- [ ] spawn an actor and get back a PID
-- [ ] send messages to an actor if you know their PID
+- [x] spawn an actor and get back a PID
+- [x] send messages to an actor if you know their PID
 - [ ] wait to receive messages in your mailbox
 - [ ] spawn and link to an actor. If one of you dies, you both die
 - [ ] supervise other actors. If one of your supervisees exits, you will hear about it
