@@ -1,1 +1,9 @@
-/target
+# Ignore everything
+*
+
+# But not these files...
+!/.gitignore
+!/README.md
+!/src/main.rs
+!/Cargo.lock
+!/Cargo.toml
