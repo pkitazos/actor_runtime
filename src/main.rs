@@ -26,11 +26,16 @@ struct ErasedAddr {
     // we would not be able to properly type the address that will be included with every message we receive
     // but we know that an address is something that can be sent a message of some shape
     // so we can represent it as a struct with a send field which is a function pointer that sends some thing
+    //
+    // We can’t put a statically typed Addr<T> inside every envelope because receivers don’t know the sender’s T.
+    // So we store an erased address: a trait object wrapping a closure that knows how to deliver a boxed envelope
+    // to the original sender if the type matches.
     send: Arc<dyn Fn(Box<dyn Any + Send>) + Send + Sync>,
 }
 
-impl<M: 'static + Send> From<Addr<M>> for ErasedAddr {
-    fn from(a: Addr<M>) -> ErasedAddr {
+impl<M: 'static + Send> From<&Addr<M>> for ErasedAddr {
+    fn from(a: &Addr<M>) -> ErasedAddr {
+        let a = a.clone();
         ErasedAddr {
             send: Arc::new(move |boxed| {
                 if let Ok(envelope) = boxed.downcast::<Envelope<M>>() {
